@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Claude Usage Tracker",
+  "version": "0.1.0",
+  "description": "Shows Claude session/weekly usage and per-chat token history, all local.",
+
+  "action": {
+    "default_popup": "popup.html"
+  },
+
+  "permissions": ["storage"],
+
+  "content_scripts": [
+    {
+      "matches": ["https://claude.ai/*"],
+      "js": ["src/content/main.js"],
+      "css": ["src/styles.css"]
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["src/injected/bridge.js"],
+      "matches": ["https://claude.ai/*"]
+    }
+  ]
+}
