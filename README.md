@@ -1,4 +1,4 @@
-# Claude Usage Tracker
+# Claude Pulse
 
 A Chrome extension that shows your real Claude.ai session/weekly usage limits right on the page, and tracks which conversations use the most tokens.
 
@@ -31,23 +31,14 @@ Token counts are an approximation (`characters / 4`), not Claude's real tokenize
 1. Download or clone this repo
 2. Go to `chrome://extensions`
 3. Turn on **Developer mode** (top right)
-4. Click **Load unpacked** → select the `claude-usage-tracker` folder
+4. Click **Load unpacked** → select the `Claude-pulse-main` folder
 5. Open [claude.ai](https://claude.ai) and start chatting
 6. Look bottom-right for the usage card, or click the extension icon for your chat list
 
 **Not working ?**
 - Make sure `claude.ai` site access is turned ON for the extension
 - Close all claude.ai tabs and open a fresh one after any reload
-- Check the Console (F12) for `[ClaudeUsageTracker]` logs
-
----
-
-## Limitations
-
-- Token counts are approximate, not exact
-- Uses an undocumented internal Claude endpoint — could break if Anthropic changes it
-- Desktop Chrome/Edge only, no mobile support
-- Local only, no sync across devices
+- Check the Console (F12) for `[Claude-pulse-main]` logs
 
 ---
 
