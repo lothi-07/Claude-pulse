@@ -49,12 +49,20 @@ function handleConversationData(data) {
 
   const title = document.title.replace(' - Claude', '').trim() || 'Untitled chat';
 
+  // pudhusa
+  if (!Array.isArray(data?.chat_messages)) return;
+
   let totalChars = 0;
-  (data?.chat_messages || []).forEach((msg) => {
-    (msg?.content || []).forEach((block) => {
-      if (block?.text) totalChars += block.text.length;
-    });
+  data.chat_messages.forEach((msg) => {
+    if (Array.isArray(msg?.content)) {
+      msg.content.forEach((block) => {
+        if (block?.text) totalChars += block.text.length;
+      });
+    } else if (typeof msg?.text === 'string') {
+      totalChars += msg.text.length;
+    }
   });
+  if (totalChars === 0) return;
   const tokenEstimate = estimateTokens(' '.repeat(totalChars));
 
   chrome.storage.local.get(['conversations'], (result) => {
@@ -118,12 +126,20 @@ function renderUsageBadge(data) {
     document.body.appendChild(badge);
   }
 
-  if (!data?.five_hour || !data?.seven_day) {
-    badge.innerHTML = '';
+  // pudhusa
+  const limits = Array.isArray(data?.limits) ? data.limits : [];
+  const session = data?.five_hour || limits.find((l) => l.kind === 'session');
+  const weekly = data?.seven_day || limits.find((l) => l.kind === 'weekly_all');
+  const sessionPct = session?.utilization ?? session?.percent;
+  const weeklyPct = weekly?.utilization ?? weekly?.percent;
+
+  if (typeof sessionPct !== 'number' && typeof weeklyPct !== 'number') {
+    badge.style.display = 'none';
     return;
   }
+  badge.style.display = '';
 
   badge.innerHTML =
-    barRow('Session (5h)', data.five_hour.utilization, data.five_hour.resets_at) +
-    barRow('Weekly (7d)', data.seven_day.utilization, data.seven_day.resets_at);
+    (typeof sessionPct === 'number' ? barRow('Session (5h)', sessionPct, session.resets_at) : '') +
+    (typeof weeklyPct === 'number' ? barRow('Weekly (7d)', weeklyPct, weekly.resets_at) : '');
 }

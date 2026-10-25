@@ -28,7 +28,7 @@ Token counts are an approximation (`characters / 4`), not Claude's real tokenize
 
 ## Setup
 
-1. Download or clone this repo
+1. Clone or download this repo
 2. Go to `chrome://extensions`
 3. Turn on **Developer mode** (top right)
 4. Click **Load unpacked** → select the `claude-usage-tracker` folder

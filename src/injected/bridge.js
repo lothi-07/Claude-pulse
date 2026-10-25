@@ -34,7 +34,7 @@
     try {
       const url = typeof args[0] === 'string' ? args[0] : args[0]?.url || '';
 
-      if (url.match(/\/chat_conversations\/[^/?]+/)) {
+     if (url.match(/\/chat_conversations\/[^/?]+(\?|$)/)) {
         const clone = response.clone();
         clone.json().then((data) => {
           window.postMessage({ source: 'claude-usage-tracker', type: 'CONVERSATION_DATA', payload: data, url }, '*');
